@@ -2,24 +2,23 @@ package com.example.demo.services;
 
 import com.example.demo.Repositories.PublisherRepository;
 import com.example.demo.entities.Publisher;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PublisherService {
-	private final PublisherRepository publisherRepository;
-
-	public PublisherService(PublisherRepository publisherRepository) {
-		this.publisherRepository = publisherRepository;
-	}
+	@Autowired 
+	private PublisherRepository publisherRepository;
 
 	public List<Publisher> getAllPublishers() {
 		return publisherRepository.findAll();
 	}
 
-	public Publisher getPublisherById(Long id) {
-		return publisherRepository.findById(id)
+	public Publisher getPublisherById(Long Id) {
+		return publisherRepository.findById(Id)
 				.orElseThrow(() -> new RuntimeException("Không tìm thấy publisher phù hợp"));
 	}
 
@@ -27,19 +26,19 @@ public class PublisherService {
 		return publisherRepository.save(publisher);
 	}
 
-	public Publisher updatePublisher(Long id, Publisher publisher) {
-		Publisher existing = getPublisherById(id);
-		existing.setName(publisher.getName());
-		existing.setEmail(publisher.getEmail());
-		existing.setAddress(publisher.getAddress());
-		existing.setPhone_number(publisher.getPhone_number());
-		existing.setDescription(publisher.getDescription());
-		return publisherRepository.save(existing);
+	public Publisher updatePublisher(Long Id, Publisher publisher) {
+		Publisher existingPublisher = getPublisherById(Id);
+		existingPublisher.setName(publisher.getName());
+		existingPublisher.setEmail(publisher.getEmail());
+		existingPublisher.setAddress(publisher.getAddress());
+		existingPublisher.setPhone_number(publisher.getPhone_number());
+		existingPublisher.setDescription(publisher.getDescription());
+		return publisherRepository.save(existingPublisher);
 	}
 
-	public Publisher deletePublisher(Long id) {
-		Publisher existing = getPublisherById(id);
-		publisherRepository.delete(existing);
-		return existing;
+	public Publisher deletePublisher(Long Id) {
+		Publisher existingPublisher = getPublisherById(Id);
+		publisherRepository.delete(existingPublisher);
+		return existingPublisher;
 }
 }

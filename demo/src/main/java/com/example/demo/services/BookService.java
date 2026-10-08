@@ -2,24 +2,23 @@ package com.example.demo.services;
 
 import com.example.demo.Repositories.BookRepository;
 import com.example.demo.entities.Book;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class BookService {
-	private final BookRepository bookRepository;
-
-	public BookService(BookRepository bookRepository) {
-		this.bookRepository = bookRepository;
-	}
+	@Autowired 
+	private BookRepository bookRepository;
 
 	public List<Book> getAllBooks() {
 		return bookRepository.findAll();
 	}
 
-	public Book getBookById(Long id) {
-		return bookRepository.findById(id)
+	public Book getBookById(Long Id) {
+		return bookRepository.findById(Id)
 				.orElseThrow(() -> new RuntimeException("Không tìm thấy book phù hợp"));
 	}
 
@@ -27,24 +26,24 @@ public class BookService {
 		return bookRepository.save(book);
 	}
 
-	public Book updateBook(Long id, Book book) {
-		Book existing = getBookById(id);
-		existing.setName(book.getName());
-		existing.setISBN(book.getISBN());
-		existing.setPrice(book.getPrice());
-		existing.setQuantity(book.getQuantity());
-		existing.setStatus(book.getStatus());
-		existing.setYear_of_publication(book.getYear_of_publication());
-		existing.setDescription(book.getDescription());
-		existing.setCategory(book.getCategory());
-		existing.setAuthor(book.getAuthor());
-		existing.setPublisher(book.getPublisher());
-		return bookRepository.save(existing);
+	public Book updateBook(Long Id, Book book) {
+		Book existingBook = getBookById(Id);
+		existingBook.setName(book.getName());
+		existingBook.setISBN(book.getISBN());
+		existingBook.setPrice(book.getPrice());
+		existingBook.setQuantity(book.getQuantity());
+		existingBook.setStatus(book.getStatus());
+		existingBook.setYear_of_publication(book.getYear_of_publication());
+		existingBook.setDescription(book.getDescription());
+		existingBook.setCategory(book.getCategory());
+		existingBook.setAuthor(book.getAuthor());
+		existingBook.setPublisher(book.getPublisher());
+		return bookRepository.save(existingBook);
 	}
 
-	public Book deleteBook(Long id) {
-		Book existing = getBookById(id);
-		bookRepository.delete(existing);
-		return existing;
-}
+	public Book deleteBook(Long Id) {
+		Book existingBook = getBookById(Id);
+		bookRepository.delete(existingBook);
+		return existingBook;
+	}
 }

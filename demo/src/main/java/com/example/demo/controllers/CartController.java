@@ -2,6 +2,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.CartService;
 import com.example.demo.entities.Cart;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,34 +11,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/carts")
 public class CartController {
-    private final CartService cartService;
-
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
-    }
+    @Autowired 
+    private CartService cartService;
 
     @GetMapping
     public List<Cart> getAllCarts() {
         return cartService.getAllCarts();
     }
 
-    @GetMapping("/{id}")
-    public Cart getCartById(@PathVariable Long id) {
-        return cartService.getCartById(id);
+    @GetMapping("/{Id}")
+    public Cart getCartById(@PathVariable Long Id) {
+        return cartService.getCartById(Id);
     }
 
     @PostMapping("/create")
-    public Cart createCart(@RequestBody Cart cart) {
-        return cartService.createCart(cart);
+    public String createCart(@RequestBody Cart cart) {
+        cartService.createCart(cart);
+        return "Thêm thành công";
     }
 
-    @PutMapping("/{id}")
-    public Cart updateCart(@PathVariable Long id, @RequestBody Cart cart) {
-        return cartService.updateCart(id, cart);
+    @PutMapping("/{Id}")
+    public String updateCart(@PathVariable Long Id, @RequestBody Cart cart) {
+        cartService.updateCart(Id, cart);
+        return "Sửa thành công";
     }
 
-    @DeleteMapping("/{id}")
-    public Cart deleteCart(@PathVariable Long id) {
-        return cartService.deleteCart(id);
+    @DeleteMapping("/{Id}")
+    public String deleteCart(@PathVariable Long Id) {
+        cartService.deleteCart(Id);
+        return "Xóa thành công";
     }
 }

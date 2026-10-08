@@ -2,6 +2,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.PaymentMethodService;
 import com.example.demo.entities.PaymentMethod;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,34 +11,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/payment-methods")
 public class PaymentMethodController {
-    private final PaymentMethodService paymentMethodService;
-
-    public PaymentMethodController(PaymentMethodService paymentMethodService) {
-        this.paymentMethodService = paymentMethodService;
-    }
+    @Autowired 
+    private PaymentMethodService paymentMethodService;
 
     @GetMapping
     public List<PaymentMethod> getAllPaymentMethods() {
         return paymentMethodService.getAllPaymentMethods();
     }
 
-    @GetMapping("/{id}")
-    public PaymentMethod getPaymentMethodById(@PathVariable Long id) {
-        return paymentMethodService.getPaymentMethodById(id);
+    @GetMapping("/{Id}")
+    public PaymentMethod getPaymentMethodById(@PathVariable Long Id) {
+        return paymentMethodService.getPaymentMethodById(Id);
     }
 
     @PostMapping("/create")
-    public PaymentMethod createPaymentMethod(@RequestBody PaymentMethod paymentMethod) {
-        return paymentMethodService.createPaymentMethod(paymentMethod);
+    public String createPaymentMethod(@RequestBody PaymentMethod paymentMethod) {
+        paymentMethodService.createPaymentMethod(paymentMethod);
+        return "Thêm thành công";
     }
 
-    @PutMapping("/{id}")
-    public PaymentMethod updatePaymentMethod(@PathVariable Long id, @RequestBody PaymentMethod paymentMethod) {
-        return paymentMethodService.updatePaymentMethod(id, paymentMethod);
+    @PutMapping("/{Id}")
+    public String updatePaymentMethod(@PathVariable Long Id, @RequestBody PaymentMethod paymentMethod) {
+        paymentMethodService.updatePaymentMethod(Id, paymentMethod);
+        return "Sửa thành công";
     }
 
-    @DeleteMapping("/{id}")
-    public PaymentMethod deletePaymentMethod(@PathVariable Long id) {
-        return paymentMethodService.deletePaymentMethod(id);
+    @DeleteMapping("/{Id}")
+    public String deletePaymentMethod(@PathVariable Long Id) {
+        paymentMethodService.deletePaymentMethod(Id);
+        return "Xóa thành công";
     }
 }

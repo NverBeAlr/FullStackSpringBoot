@@ -2,6 +2,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.OrderDetailService;
 import com.example.demo.entities.OrderDetail;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,34 +11,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/order-details")
 public class OrderDetailController {
-    private final OrderDetailService orderDetailService;
-
-    public OrderDetailController(OrderDetailService orderDetailService) {
-        this.orderDetailService = orderDetailService;
-    }
+    @Autowired 
+    private OrderDetailService orderDetailService;
 
     @GetMapping
     public List<OrderDetail> getAllOrderDetails() {
         return orderDetailService.getAllOrderDetails();
     }
 
-    @GetMapping("/{id}")
-    public OrderDetail getOrderDetailById(@PathVariable Long id) {
-        return orderDetailService.getOrderDetailById(id);
+    @GetMapping("/{Id}")
+    public OrderDetail getOrderDetailById(@PathVariable Long Id) {
+        return orderDetailService.getOrderDetailById(Id);
     }
 
     @PostMapping("/create")
-    public OrderDetail createOrderDetail(@RequestBody OrderDetail orderDetail) {
-        return orderDetailService.createOrderDetail(orderDetail);
+    public String createOrderDetail(@RequestBody OrderDetail orderDetail) {
+        orderDetailService.createOrderDetail(orderDetail);
+        return "Thêm thành công";
     }
 
-    @PutMapping("/{id}")
-    public OrderDetail updateOrderDetail(@PathVariable Long id, @RequestBody OrderDetail orderDetail) {
-        return orderDetailService.updateOrderDetail(id, orderDetail);
+    @PutMapping("/{Id}")
+    public String updateOrderDetail(@PathVariable Long Id, @RequestBody OrderDetail orderDetail) {
+        orderDetailService.updateOrderDetail(Id, orderDetail);
+        return "Sửa thành công";
     }
 
-    @DeleteMapping("/{id}")
-    public OrderDetail deleteOrderDetail(@PathVariable Long id) {
-        return orderDetailService.deleteOrderDetail(id);
+    @DeleteMapping("/{Id}")
+    public String deleteOrderDetail(@PathVariable Long Id) {
+        orderDetailService.deleteOrderDetail(Id);
+        return "Xóa thành công";
     }
 }

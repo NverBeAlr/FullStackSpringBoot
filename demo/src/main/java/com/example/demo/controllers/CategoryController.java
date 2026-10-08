@@ -2,6 +2,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.CategoryService;
 import com.example.demo.entities.Category;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,34 +11,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
-    private final CategoryService categoryService;
-
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    @Autowired 
+    private CategoryService categoryService;
 
     @GetMapping
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
-    @GetMapping("/{id}")
-    public Category getCategoryById(@PathVariable Long id) {
-        return categoryService.getCategoryById(id);
+    @GetMapping("/{Id}")
+    public Category getCategoryById(@PathVariable Long Id) {
+        return categoryService.getCategoryById(Id);
     }
 
     @PostMapping("/create")
-    public Category createCategory(@RequestBody Category category) {
-        return categoryService.createCategory(category);
+    public String createCategory(@RequestBody Category category) {
+        categoryService.createCategory(category);
+        return "Thêm thành công";
     }
 
-    @PutMapping("/{id}")
-    public Category updateCategory(@PathVariable Long id, @RequestBody Category category) {
-        return categoryService.updateCategory(id, category);
+    @PutMapping("/{Id}")
+    public String updateCategory(@PathVariable Long Id, @RequestBody Category category) {
+        categoryService.updateCategory(Id, category);
+        return "Sửa thành công";
     }
 
-    @DeleteMapping("/{id}")
-    public Category deleteCategory(@PathVariable Long id) {
-        return categoryService.deleteCategory(id);
+    @DeleteMapping("/{Id}")
+    public String deleteCategory(@PathVariable Long Id) {
+        categoryService.deleteCategory(Id);
+        return "Xóa thành công";
     }
 }

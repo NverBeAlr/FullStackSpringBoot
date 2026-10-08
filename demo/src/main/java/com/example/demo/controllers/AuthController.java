@@ -51,11 +51,15 @@ public class AuthController {
     if(optionalAdmin.isPresent() && passwordEncoder.matches(password, optionalAdmin.get().getPassword())){
         String token = jwtUtil.generateToken(email);
 
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Đăng nhập thành công");
-        response.put("token", token);
+        // Map<String, String> response = new HashMap<>();
+        // response.put("message", "Đăng nhập thành công");
+        // response.put("token", token);
 
-        return ResponseEntity.ok(response);
+        // return ResponseEntity.ok(response);
+        return ResponseEntity.ok(Map.of(
+            "message", "Đăng nhập thành công",
+            "token", token
+        ));
     }
 
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tài khoản sai");

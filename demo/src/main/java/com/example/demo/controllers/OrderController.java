@@ -2,6 +2,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.OrderService;
 import com.example.demo.entities.Orders;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,34 +11,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
-    private final OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
+    @Autowired 
+    private OrderService orderService;
 
     @GetMapping
     public List<Orders> getAllOrders() {
         return orderService.getAllOrders();
     }
 
-    @GetMapping("/{id}")
-    public Orders getOrderById(@PathVariable Long id) {
-        return orderService.getOrderById(id);
+    @GetMapping("/{Id}")
+    public Orders getOrderById(@PathVariable Long Id) {
+        return orderService.getOrderById(Id);
     }
 
     @PostMapping("/create")
-    public Orders createOrder(@RequestBody Orders order) {
-        return orderService.createOrder(order);
+    public String createOrder(@RequestBody Orders order) {
+        orderService.createOrder(order);
+        return "Thêm thành công";
     }
 
-    @PutMapping("/{id}")
-    public Orders updateOrder(@PathVariable Long id, @RequestBody Orders order) {
-        return orderService.updateOrder(id, order);
+    @PutMapping("/{Id}")
+    public String updateOrder(@PathVariable Long Id, @RequestBody Orders order) {
+        orderService.updateOrder(Id, order);
+        return "Sửa thành công";
     }
 
-    @DeleteMapping("/{id}")
-    public Orders deleteOrder(@PathVariable Long id) {
-        return orderService.deleteOrder(id);
+    @DeleteMapping("/{Id}")
+    public String deleteOrder(@PathVariable Long Id) {
+        orderService.deleteOrder(Id);
+        return "Xóa thành công";
     }
 }
